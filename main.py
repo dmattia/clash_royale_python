@@ -27,7 +27,7 @@ class GameSpace:
 		self.player2 = Player(self)
 
 		self.lc = LoopingCall(self.game_loop_iterate)
-		self.lc.start(1.0/30)	
+		self.lc.start(1.0/20)	
 
 	def game_loop_iterate(self):
 		self.player1.tick()
