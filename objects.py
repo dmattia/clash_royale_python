@@ -51,6 +51,13 @@ class Tower(pygame.sprite.Sprite):
 		self.y_pos = y_pos
 		self.hp = hp
 
+	def to_dict(self):
+		return {
+			"x_pos": self.x_pos,				
+			"y_pos": self.y_pos,				
+			"hp": self.hp
+		}
+
 class Playable(pygame.sprite.Sprite):
 	def __init__(self):
 		self.hp = 0
@@ -61,6 +68,14 @@ class Playable(pygame.sprite.Sprite):
 		self.damage_per_tick = 0
 		self.move_amount_per_tick = 0
 		self.image_name = None
+
+	def to_dict(self):
+		return {
+			"x_pos": self.x_pos,				
+			"y_pos": self.y_pos,				
+			"hp": self.hp,
+			"image_name": self.image_name
+		}
 
 	def attack(self, otherObject):
 		otherObject.hp -= self.damage_per_tick

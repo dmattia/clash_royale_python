@@ -26,8 +26,6 @@ class GameSpace:
 		self.player1 = Player(self)
 		self.player2 = Player(self)
 
-		self.ball = Ball(self.speed)
-
 		self.lc = LoopingCall(self.game_loop_iterate)
 		self.lc.start(1.0/30)	
 
