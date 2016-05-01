@@ -18,9 +18,6 @@ class Player():
 			Tower(gs.width * 1 / 4.0, gs.height / 4.0, 2000), 
 			Tower(gs.width * 2 / 4.0, gs.height / 6.0, 3000), 
 			Tower(gs.width * 3 / 4.0, gs.height / 4.0, 2000)
-			#Tower(30, 30, 2000), 
-			#Tower(60, 60, 3000), 
-			#Tower(90, 90, 2000), 
 		])
 
 	def tick(self):
