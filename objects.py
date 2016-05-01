@@ -23,6 +23,9 @@ class Player():
 			#Tower(90, 90, 2000), 
 		])
 
+	def tick(self):
+		pass
+
 	def to_dict(self):
 		armyDict = {}
 		troopCount = 0
