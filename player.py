@@ -7,7 +7,7 @@ from pygame.locals import *
 import sys
 
 server = 'student03.cse.nd.edu'
-port = 40083
+port = 40075
 
 def is_json(data):
 	try:
@@ -28,44 +28,50 @@ class ClientConnection (Protocol):
 		self.green = 0, 255, 0
 		self.white = 255, 255, 255
 		self.screen = pygame.display.set_mode(self.size)
-		self.tower_image = pygame.image.load("tower.png")
+		self.tower_image = pygame.image.load("tower.png").convert()
 
 	def dataReceived(self, data):
 		# get game data sent over
 		json_data = data.split('?', 1)[0]
 		if is_json(json_data):
 			game = json.loads(json_data)
-			print "Received data: " + json_data
+			#print "Received data: " + json_data
 		else:
 			# This can happen when the transport stream is fragmented and the
 			# end of one json string is sent over that is incomplete
 			# This is uncommon, and can be ignored
 			return
 
+		self.screen.fill(self.green)
+
 		playersDict = game["players"]
 		for player in playersDict:
-			towers = player["towers"]
-			for tower in towers:
+			playerDict = playersDict[player]
+			towers = playerDict["towers"]
+			rects = []
+			for towerKey in towers:
+				tower = towers[towerKey]
 				x_pos = tower["x_pos"]
 				y_pos = tower["y_pos"]
-    			screen.blit(
-					self.tower_image,
-					(x_pos, y_pos)
-				)		
-			army = player["army"]
-			for troop in army:
-				troop_image = pygame.image.load(filename) 
+				rect = self.tower_image.get_rect()
+				rect.center = x_pos - rect.width, y_pos
+				rects.append(rect)
+			for rect in rects:
+				self.screen.blit(self.tower_image, rect)
+			"""
+			army = playerDict["army"]
+			for troopKey in army:
+				troop = army[troopKey]
+				troop_image = pygame.image.load(troop["image_name"]).convert()
 				x_pos = tower["x_pos"]
 				y_pos = tower["y_pos"]
-    			screen.blit(
+    			self.screen.blit(
 					troop_image,	
 					(x_pos, y_pos)
 				)		
-			playerMana = player["mana"]
-			playerMaxMana = player["max_mana"]
-
-		# draw background, players and ball
-		self.screen.fill(self.green)
+			"""
+			playerMana = playerDict["mana"]
+			playerMaxMana = playerDict["max_mana"]
 		
 		pygame.display.flip()
 		
@@ -88,5 +94,6 @@ class ClientConnection (Protocol):
 		reactor.stop()
 	
 if __name__ == '__main__':
-	reactor.connectTCP(server, port, ClientConnFactory())
+	#reactor.connectTCP(server, port, ClientConnFactory())
+	reactor.connectTCP(server, int(sys.argv[1]), ClientConnFactory())
 	reactor.run()
