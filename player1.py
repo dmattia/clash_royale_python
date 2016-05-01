@@ -28,6 +28,7 @@ class ClientConnection (Protocol):
 		self.green = 0, 255, 0
 		self.white = 255, 255, 255
 		self.screen = pygame.display.set_mode(self.size)
+		self.tower_image = pygame.image.load("tower.png")
 
 	def dataReceived(self, data):
 		# get game data sent over
@@ -41,8 +42,30 @@ class ClientConnection (Protocol):
 			# This is uncommon, and can be ignored
 			return
 
+		playersDict = game["players"]
+		for player in playersDict:
+			towers = player["towers"]
+			for tower in towers:
+				x_pos = tower["x_pos"]
+				y_pos = tower["y_pos"]
+    			screen.blit(
+					self.tower_image,
+					(x_pos, y_pos)
+				)		
+			army = player["army"]
+			for troop in army:
+				troop_image = pygame.image.load(filename) 
+				x_pos = tower["x_pos"]
+				y_pos = tower["y_pos"]
+    			screen.blit(
+					troop_image,	
+					(x_pos, y_pos)
+				)		
+			playerMana = player["mana"]
+			playerMaxMana = player["max_mana"]
+
 		# draw background, players and ball
-		self.screen.fill(self.black)
+		self.screen.fill(self.green)
 		
 		pygame.display.flip()
 		
