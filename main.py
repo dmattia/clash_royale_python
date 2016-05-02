@@ -20,7 +20,7 @@ gs = None
 
 class GameSpace:
 	def __init__(self):
-		self.size = self.width, self.height = 640, 480
+		self.size = self.width, self.height = 480, 852
 		self.speed = 12.0
 
 		self.player1 = Player(self)
@@ -62,7 +62,8 @@ class P1Server(Protocol):
 		self.addr = addr
 
 	def dataReceived(self, data):
-		print "Received data: "  + data
+		#print "Received data: "  + data
+		pass
 
 	def connectionMade(self):
 		print "Player 1 connected"
@@ -89,7 +90,8 @@ class P2Server(Protocol):
 		self.addr = addr
 
 	def dataReceived(self, data):
-		print "Received data: "  + data
+		#print "Received data: "  + data
+		pass
 
 	def connectionMade(self):
 		print "Player 2 connected"

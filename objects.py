@@ -2,6 +2,8 @@ import pygame
 import random
 from sets import Set
 from math import hypot
+from random import randint
+from datetime import datetime
 
 class Player():
 	def __init__(self, gs=None):
@@ -57,14 +59,15 @@ class Tower(pygame.sprite.Sprite):
 
 class Playable(pygame.sprite.Sprite):
 	def __init__(self):
+		random.seed(datetime.now())
 		self.hp = 0
 		self.attack_range = 0
 		self.cost = 0
-		self.x_pos = 0
-		self.y_pos = 0
+		self.x_pos = randint(0, 480)
+		self.y_pos = randint(0, 852)
 		self.damage_per_tick = 0
 		self.move_amount_per_tick = 0
-		self.image_name = None
+		self.image_name = "images/dragon.png"
 
 	def to_dict(self):
 		return {

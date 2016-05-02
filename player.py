@@ -6,8 +6,8 @@ import pygame
 from pygame.locals import *
 import sys
 
-server = 'student03.cse.nd.edu'
-port = 40075
+#server = 'student03.cse.nd.edu'
+server = 'localhost'
 
 def is_json(data):
 	try:
@@ -28,7 +28,7 @@ class ClientConnection (Protocol):
 		self.green = 0, 255, 0
 		self.white = 255, 255, 255
 		self.screen = pygame.display.set_mode(self.size)
-		self.tower_image = pygame.image.load("tower.png").convert()
+		self.tower_image = pygame.image.load("images/tower.png").convert()
 
 	def dataReceived(self, data):
 		# get game data sent over
@@ -54,22 +54,22 @@ class ClientConnection (Protocol):
 				x_pos = tower["x_pos"]
 				y_pos = tower["y_pos"]
 				rect = self.tower_image.get_rect()
-				rect.center = x_pos - rect.width, y_pos
+				rect.center = x_pos, y_pos
 				rects.append(rect)
 			for rect in rects:
 				self.screen.blit(self.tower_image, rect)
-			"""
 			army = playerDict["army"]
+			armyRects = []
 			for troopKey in army:
 				troop = army[troopKey]
 				troop_image = pygame.image.load(troop["image_name"]).convert()
-				x_pos = tower["x_pos"]
-				y_pos = tower["y_pos"]
-    			self.screen.blit(
-					troop_image,	
-					(x_pos, y_pos)
-				)		
-			"""
+				x_pos = troop["x_pos"]
+				y_pos = troop["y_pos"]
+				rect = troop_image.get_rect()
+				rect.center = x_pos, y_pos
+				armyRects.append((troop_image, rect))
+			for rect in armyRects:
+				self.screen.blit(rect[0], rect[1])
 			playerMana = playerDict["mana"]
 			playerMaxMana = playerDict["max_mana"]
 		
